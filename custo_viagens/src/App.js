@@ -1,12 +1,17 @@
-import './App.css';
 import React from 'react';
-import Graph from 'react-vis-network-graph';
 import Map from './components/Map';
+import Navbar from './components/Navbar';
+import { Flex, Box } from 'reflexbox';
+import Form from './components/Form';
 function App() {
   return (
-    <>
-      <Map />
-    </>
+    <Box minHeight="100vh">
+      <Navbar />
+      <Flex flexDirection="column" justifyContent="center" alignItems="center">
+        <Map />
+        <Form />
+      </Flex>
+    </Box>
   );
 }
 
