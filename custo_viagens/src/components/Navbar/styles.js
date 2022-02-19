@@ -7,5 +7,6 @@ export const NavContainer = styled.div`
   color: white;
   align-items: center;
   padding: 0.3rem;
+  gap: 1rem;
   margin-bottom: 2rem;
 `;
