@@ -1,78 +1,134 @@
 import { Flex } from 'reflexbox';
-import { TextField, Button } from '@mui/material';
+import {
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
 import { useState } from 'react';
-import capitals from '../../utils/capitals.json';
 import { edges } from '../../utils/distances';
-import { dijkstra } from '../../utils/dijkstra';
+import { Graph } from '../../utils/dijkstra';
 import MapCaption from '../MapCaption';
-
+import capitals from '../../utils/capitals.json';
+import { handleTimeout } from '../../utils/handleTimeout';
+import { asyncForEach } from '../../utils/asyncForEach';
+import { ReactComponent as BrazilMap } from '../../assets/mapa-brasil.svg';
+import * as S from './styles';
 const Form = () => {
   const [source, setSource] = useState();
   const [target, setTarget] = useState();
-  const [distanceArray, setDistance] = useState([]);
+  const [distance, setDistance] = useState([]);
 
-  const graph = {};
+  const capitalGraph = new Graph();
 
   capitals.forEach((capital) => {
-    graph[capital] = {};
+    capitalGraph.addVertex(capital);
   });
 
-  Object.entries(edges).forEach((edge) => {
+  Object.entries(edges).forEach((edge, index) => {
     const key = edge[0];
     const value = edge[1];
-
-    const firstCapital = { [key.split(':')[0]]: value };
-    const secondCapital = { [key.split(':')[1]]: value };
-
-    Object.assign(graph[key.split(':')[1]], firstCapital);
-    Object.assign(graph[key.split(':')[0]], secondCapital);
+    capitalGraph.addEdge(key.split(':')[0], key.split(':')[1], value);
   });
+
+  const resetMap = () => {
+    capitals.forEach((capital) => {
+      var capitalMap = document.getElementById(capital);
+      capitalMap.style.fill = '#D3DEE2';
+    });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    resetMap();
     const sourceInput = event.target.source;
     const targetInput = event.target.target;
+    const shortestPath = capitalGraph.dijkstra(
+      sourceInput.value,
+      targetInput.value
+    );
 
-    console.log(sourceInput.value, targetInput.value);
-    const shortestPath = dijkstra(graph, sourceInput.value, targetInput.value);
-    setDistance(shortestPath.path);
-    shortestPath.path.forEach((path, index) => {
-      var icone = document.getElementById(path);
-      console.log(index, shortestPath.path.length);
-      if (index === 0) icone.style.fill = '#1cbe29';
-      else if (index === shortestPath.path.length - 1) {
-        icone.style.fill = '#1c51c5';
+    setDistance(shortestPath);
+    asyncForEach(shortestPath.path, async (capital, index) => {
+      let capitalMap = document.getElementById(capital);
+      await handleTimeout(0.5);
+      if (index === 0) {
+        capitalMap.style.fill = '#1cbe29';
+      } else if (index === shortestPath.path.length - 1) {
+        capitalMap.style.fill = '#1c51c5';
       } else {
-        icone.style.fill = '#58585a';
+        capitalMap.style.fill = '#58585a';
       }
     });
   };
+
+  const handleChangeSource = (event) => {
+    const sourceInput = event.target.value;
+    setSource(sourceInput);
+  };
+
+  const handleChangeTarget = (event) => {
+    const targetInput = event.target.value;
+    setTarget(targetInput);
+  };
   return (
-    <Flex style={{ gap: '2rem' }}>
-      <form onSubmit={handleSubmit}>
-        <Flex width="300px" style={{ gap: '2rem' }} flexDirection="column">
-          <h3 style={{ color: '#218d84' }}>Preencha e calcule a distância</h3>
-          <TextField
-            id="outlined-basic"
-            label="Capital de Origem"
-            variant="outlined"
-            name="source"
-            value={source}
-          />
-          <TextField
-            id="outlined-basic"
-            name="target"
-            label="Capital de Destino"
-            variant="outlined"
-            value={target}
-          />
-          <Button type="submit" variant="contained">
-            Calcular Menor Caminho
-          </Button>
-        </Flex>
-      </form>
-      <MapCaption distanceArray={distanceArray} />
+    <Flex justifyContent="space-between" minWidth="100%">
+      <div>
+        <form onSubmit={handleSubmit}>
+          <Flex width="310px" style={{ gap: '2rem' }} flexDirection="column">
+            <h3 style={{ color: '#218d84' }}>
+              Selecione as capitais e calcule a distância
+            </h3>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">
+                Cidade de Origem
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={source}
+                name="source"
+                label="Cidade de origem"
+                onChange={handleChangeSource}
+              >
+                {capitals?.map((capital, index) => (
+                  <MenuItem key={index} value={capital}>
+                    {capital}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">
+                Cidade de Destino
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={target}
+                name="target"
+                label="Cidade de destino"
+                onChange={handleChangeTarget}
+              >
+                {capitals?.map((capital, index) => (
+                  <MenuItem key={index} value={capital}>
+                    {capital}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Button type="submit" variant="contained">
+              Calcular Menor Caminho
+            </Button>
+          </Flex>
+        </form>
+      </div>
+      <S.MapContainer>
+        <MapCaption distance={distance} />
+        <BrazilMap />
+      </S.MapContainer>
     </Flex>
   );
 };

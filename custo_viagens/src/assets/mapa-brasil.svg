@@ -8,10 +8,6 @@
             fill: #D3DEE2;
         }
 
-            .state:hover {
-                fill: #FCAF17;
-                transition: 0.1s linear;
-            }
     </style>
     
 <g>

@@ -1,4 +1,3 @@
-import { Flex } from 'reflexbox';
 import * as S from './styles';
 import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
 const Navbar = () => {

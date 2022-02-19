@@ -1,7 +1,6 @@
 import React from 'react';
-import Map from './components/Map';
 import Navbar from './components/Navbar';
-import { Flex, Box } from 'reflexbox';
+import { Flex } from 'reflexbox';
 import Form from './components/Form';
 import * as S from './AppStyle';
 function App() {
@@ -13,7 +12,6 @@ function App() {
           <h2>Encontrar menor caminho para viajar pelas capitais</h2>
           <Flex justifyContent="space-between" alignItems="center">
             <Form />
-            <Map />
           </Flex>
         </S.Wrapper>
       </Flex>
