@@ -6,7 +6,7 @@ export const edges = {
   'Porto Velho:Manaus': 901,
   'Rio Branco:Manaus': 1445,
   'Rio Branco:Porto Velho': 544,
-  
+
   //NORDESTE
   'Teresina:Sao Luis': 446,
   'Teresina:Fortaleza': 634,
@@ -55,5 +55,5 @@ export const edges = {
   'Goiania:Belo Horizonte': 906,
   'Brasilia:Belo Horizonte': 716,
   'Campo Grande:Belo Horizonte': 1453,
-  'Sao Paulo:Campo Grande': 1014
+  'Sao Paulo:Campo Grande': 1014,
 };
