@@ -10,19 +10,33 @@
 | 18/0125885  |  Lucas Melo dos Santos |
 
 ## Sobre 
-Descreva os objetivos do seu projeto e como ele funciona. 
+O projeto consiste em um aplicação web que calcula o custo de uma viagem  de carro a gasolina e que passe por várias capitais, tendo objetivo de visita-las fazendo o menor caminho possível. Dessa forma é utilizado o algoritmo de dijkstra em que os km são os pesos das arestas. Cada nó só tem arestas na divisas dos estados.
 
 ## Screenshots
 Adicione 3 ou mais screenshots do projeto em funcionamento.
 
 ## Instalação 
-**Linguagem**: xxxxxx<br>
-**Framework**: (caso exista)<br>
-Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
+**Linguagem**: Javascripit<br>
+**Framework**: React<br>
+
 
 ## Uso 
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
 
+```
+cd Grafos2_Custo-de-Viagens/custo_viagens
+
+yarn
+
+yarn start
+```
+ou 
+```
+cd Grafos2_Custo-de-Viagens/custo_viagens
+
+npm install
+
+npm start
+```
 ## Outros 
 Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
 
