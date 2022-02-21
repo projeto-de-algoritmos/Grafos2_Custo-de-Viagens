@@ -21,15 +21,17 @@ const MapCaption = ({ distance, cost, car }) => {
           </Flex>
         );
       })}
-      {typeof distance.distance === 'number' && (
-        <p>Distância percorrida entre as capitais:{distance.distance} Km</p>
-      )}
-      {typeof distance.distance === 'number' && (
-        <p>Autonomia do carro:{car} Km/L</p>
-      )}
-      {typeof distance.distance === 'number' && (
-        <p>Custo:{Math.round(cost*100)/100} reais</p>
-      )}
+      <div>
+        {typeof distance.distance === 'number' && (
+          <p>Distância percorrida entre as capitais:{distance.distance} Km</p>
+        )}
+        {typeof cost === 'number' && (
+          <p>Autonomia do carro:{car} Km/L</p>
+        )}
+        {typeof cost === 'number' && (
+          <p>Custo:{Math.round(cost*100)/100} reais</p>
+        )}
+      </div>
     </S.Wrapper>
   );
 };
