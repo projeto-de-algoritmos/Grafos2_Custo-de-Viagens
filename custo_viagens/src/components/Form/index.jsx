@@ -1,11 +1,12 @@
 import { Flex } from 'reflexbox';
 import {
-  TextField,
+  FormHelperText,
   Button,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
+  Input,
 } from '@mui/material';
 import { useState } from 'react';
 import { edges } from '../../utils/distances';
@@ -20,6 +21,8 @@ const Form = () => {
   const [source, setSource] = useState();
   const [target, setTarget] = useState();
   const [distance, setDistance] = useState([]);
+  const [cost, setCost] = useState([]);
+  const [car, setCar] = useState([]);
 
   const capitalGraph = new Graph();
 
@@ -45,12 +48,16 @@ const Form = () => {
     resetMap();
     const sourceInput = event.target.source;
     const targetInput = event.target.target;
+    const carInput = car;
     const shortestPath = capitalGraph.dijkstra(
       sourceInput.value,
       targetInput.value
     );
 
     setDistance(shortestPath);
+    const distanceFloat = parseFloat(shortestPath.distance)
+    setCost(distanceFloat * 7 / carInput);
+    setCar(carInput);
     asyncForEach(shortestPath.path, async (capital, index) => {
       let capitalMap = document.getElementById(capital);
       await handleTimeout(0.5);
@@ -73,6 +80,11 @@ const Form = () => {
     const targetInput = event.target.value;
     setTarget(targetInput);
   };
+
+  function carAutonomy(event) {
+    setCar(event.target.value);
+  }
+
   return (
     <Flex justifyContent="space-between" minWidth="100%">
       <div>
@@ -119,6 +131,20 @@ const Form = () => {
                 ))}
               </Select>
             </FormControl>
+            <FormControl>
+              <InputLabel id='demo-simple-input-label'>
+                  Autonomia do carro em Km/L
+              </InputLabel>
+              <Input
+                labelId="demo-simple-input-label"
+                id="demo-simple-input-label"
+                value={car}
+                name="car"
+                label = "Autonomia do carro em Km/L"
+                onChange={carAutonomy}
+              />
+              <FormHelperText>Utilize o ponto para valores decimais</FormHelperText>            
+            </FormControl>
             <Button type="submit" variant="contained">
               Calcular Menor Caminho
             </Button>
@@ -126,7 +152,7 @@ const Form = () => {
         </form>
       </div>
       <S.MapContainer>
-        <MapCaption distance={distance} />
+        <MapCaption distance={distance} cost={cost} car={car}/>
         <BrazilMap />
       </S.MapContainer>
     </Flex>

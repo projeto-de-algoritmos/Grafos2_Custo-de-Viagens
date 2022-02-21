@@ -2,7 +2,7 @@ import * as S from './styles';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import { Flex } from 'reflexbox';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-const MapCaption = ({ distance }) => {
+const MapCaption = ({ distance, cost, car }) => {
   return (
     <S.Wrapper>
       {distance?.path?.map((capital, index) => {
@@ -22,7 +22,13 @@ const MapCaption = ({ distance }) => {
         );
       })}
       {typeof distance.distance === 'number' && (
-        <p>Distancia passando por cada capital:{distance.distance} Km</p>
+        <p>Distância percorrida entre as capitais:{distance.distance} Km</p>
+      )}
+      {typeof distance.distance === 'number' && (
+        <p>Autonomia do carro:{car} Km/L</p>
+      )}
+      {typeof distance.distance === 'number' && (
+        <p>Custo:{Math.round(cost*100)/100} reais</p>
       )}
     </S.Wrapper>
   );
