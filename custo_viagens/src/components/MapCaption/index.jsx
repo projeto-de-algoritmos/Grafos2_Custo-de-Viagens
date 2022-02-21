@@ -21,7 +21,7 @@ const MapCaption = ({ distance, cost, car }) => {
           </Flex>
         );
       })}
-      <div>
+      <Flex alignItems="center" flexDirection="column" marginBottom="2rem">
         {typeof distance.distance === 'number' && (
           <p>Distância percorrida entre as capitais:{distance.distance} Km</p>
         )}
@@ -31,7 +31,7 @@ const MapCaption = ({ distance, cost, car }) => {
         {typeof cost === 'number' && (
           <p>Custo:{Math.round(cost*100)/100} reais</p>
         )}
-      </div>
+      </Flex>
     </S.Wrapper>
   );
 };

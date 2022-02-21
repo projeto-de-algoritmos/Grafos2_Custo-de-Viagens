@@ -56,7 +56,7 @@ const Form = () => {
 
     setDistance(shortestPath);
     const distanceFloat = parseFloat(shortestPath.distance)
-    setCost(distanceFloat * 7 / carInput);
+    setCost(distanceFloat * 6.79 / carInput); // 6.79 é o preço médio da gasolina em Fev/2022
     setCar(carInput);
     asyncForEach(shortestPath.path, async (capital, index) => {
       let capitalMap = document.getElementById(capital);
@@ -86,7 +86,7 @@ const Form = () => {
   }
 
   return (
-    <Flex justifyContent="space-between" minWidth="100%">
+    <Flex justifyContent="space-between" minWidth="100%" flexWrap="wrap">
       <div>
         <form onSubmit={handleSubmit}>
           <Flex width="310px" style={{ gap: '2rem' }} flexDirection="column">
@@ -104,6 +104,7 @@ const Form = () => {
                 name="source"
                 label="Cidade de origem"
                 onChange={handleChangeSource}
+                required
               >
                 {capitals?.map((capital, index) => (
                   <MenuItem key={index} value={capital}>
@@ -123,6 +124,7 @@ const Form = () => {
                 name="target"
                 label="Cidade de destino"
                 onChange={handleChangeTarget}
+                required
               >
                 {capitals?.map((capital, index) => (
                   <MenuItem key={index} value={capital}>
@@ -142,6 +144,7 @@ const Form = () => {
                 name="car"
                 label = "Autonomia do carro em Km/L"
                 onChange={carAutonomy}
+                required
               />
               <FormHelperText>Utilize o ponto para valores decimais</FormHelperText>            
             </FormControl>

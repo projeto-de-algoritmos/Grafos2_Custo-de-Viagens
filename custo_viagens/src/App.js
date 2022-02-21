@@ -10,7 +10,7 @@ function App() {
       <Flex minHeight="100vh" justifyContent="center">
         <S.Wrapper>
           <h2>Encontrar menor caminho para viajar pelas capitais</h2>
-          <Flex justifyContent="space-between" alignItems="center">
+          <Flex justifyContent="space-between" alignItems="center" flexWrap="wrap">
             <Form />
           </Flex>
         </S.Wrapper>
